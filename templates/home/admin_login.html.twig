@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome To Guest Book Portal - Administrator Login{% endblock %}
+
+{% block body %}
+<div class="user_nav">
+    <p class="text-center">Administrator Login</a></p>
+</div>
+
+<div class="common_bottom_block">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}	
+	
+	<form method="post" action="" id="admin_login_form" class="text-left guestbook_form mt-4 mb-3" enctype="multipart/form-data" autocomplete="off">
+        <div class="mb-3"> 
+            <label for="username" class="form-label">Username <sup class="text-danger">*</sup></label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="Username" autofocus required />                
+        </div>
+        
+        <div class="mb-3"> 
+            <label for="password" class="form-label">Password <sup class="text-danger">*</sup></label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="Password" required />                
+        </div>
+        
+        <button class="btn btn-success custom_btn btn-sm" name="form[submit]" type="submit">Login</button>
+        <a class="btn btn-danger custom_btn btn-sm" href="{{ path('home') }}">Cancel</a>
+    </form>  	
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ asset('jquery_validation/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery_validation/jquery.validate_additional.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() 
+    {         
+        $.validator.addMethod("required", function(value, element) { if($.trim(value).length == 0) { return false; } else { return true; } });
+
+        $("#admin_login_form").validate( 
+        {
+            rules:
+            {
+                username: { required: true },
+                password: { required:true } 
+            },
+            messages:
+            {
+                username: { required: "Please enter the Username" },
+                password: { required: "Please enter the Password" },
+            }
+        });
+    })
+</script>
+{% endblock %}

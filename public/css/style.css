@@ -1,0 +1,115 @@
+.home_outer_block
+{
+    border: 1px solid #303030;
+}
+
+.home_top_block
+{
+	padding: 30px 20px;
+	border-bottom: 1px solid #303030;
+	background: #6c757d;
+	color: #fff;
+}
+
+.home_top_block h3
+{
+    margin: 0;
+    font-weight: bold;
+    text-transform: uppercase;
+	text-align: center;
+}
+
+.user_nav 
+{
+	padding: 10px 40px;
+	background: #F0F0F0;
+	border-bottom: 1px solid #303030;
+}
+
+.user_nav p 
+{
+	margin: 0;
+	text-align: right;
+	font-size: 14px;
+	font-weight: 600;
+}
+
+.user_nav p, .user_nav a
+{
+	color:#000;
+	text-decoration: none;
+}
+
+.user_nav a:hover
+{
+	text-decoration: underline;
+}
+
+.home_bottom_block 
+{
+	/* background: #fff; */
+	padding: 80px 20px;
+	text-align: center;
+}
+
+.home_bottom_block .btn
+ {
+	margin: 2px 3px;
+	min-width: 250px;
+	text-transform: uppercase;	
+}
+
+.common_bottom_block
+{
+	/* background: #fff; */
+	padding: 20px 40px 20px 40px;
+}
+
+.table .table_bg_grey
+{
+    background: #F0F0F0;
+}
+
+.table tr td .badge
+{
+	border-radius: 0;
+    padding: 6px 8px 8px 8px;
+	min-width:80px;
+}
+
+.table tr td .btn 
+{
+    border-radius: 0;
+    padding: 3px 8px 5px 8px;
+    min-width: 80px;
+    line-height: unset;
+}
+
+.btn.custom_btn
+{
+    font-weight: 600;
+	border-radius: 0;
+	padding: 5px 25px 8px 25px;
+}
+
+.guestbook_form 
+{
+	padding: 30px 40px 30px 40px;
+	margin: 0;
+	background: #F0F0F0;
+	border: 1px solid #ccc;
+}
+
+.guestbook_form input.form-control
+{
+	border-radius: 0;
+}
+
+label.error 
+{
+	color: #dc3545;
+	font-size: 13px;
+	display: block;
+	margin: 2px 0 0 0px;
+}
+

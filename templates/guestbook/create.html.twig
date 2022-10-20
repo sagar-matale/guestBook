@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome To Guest Book Portal - Add Guest Book{% endblock %}
+
+{% block body %}
+<div class="user_nav">
+    <p>Welcome Guest | <a href="{{ path('logout') }}" >Logout</a></p>
+</div>
+
+<div class="common_bottom_block">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    <div class="">
+        <a href="{{ path('guestbook.listing') }}" class="btn btn-secondary custom_btn mb-2 btn-sm float-end">Back</a>
+        <div class="clearfix"></div>
+    </div>
+    
+    <form method="post" action="" id="guestbook_create_form" class="text-left guestbook_form" enctype="multipart/form-data" autocomplete="off">
+        <div class="mb-3"> 
+            <label for="name" class="form-label">Name <sup class="text-danger">*</sup></label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Name" autofocus required />                
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" class="form-control" name="image" id="image" accept=".png,.jpeg,.jpg, .gif">
+            <small>Note : Please upload only png, jpeg, jpg, gif extension image</small>
+        </div>
+        
+        <button type="submit" id="form_submit" name="form[submit]" class="btn btn-success custom_btn btn-sm" >Submit</button>
+        <a class="btn btn-danger custom_btn btn-sm" href="{{ path('guestbook.listing') }}">Cancel</a>
+    </form>                                
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ asset('jquery_validation/jquery.validate.js') }}"></script>
+<script type="text/javascript" src="{{ asset('jquery_validation/jquery.validate_additional.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() 
+    {         
+        $.validator.addMethod("valid_img_format", function(value, element) 
+        { 
+            if(value != "")
+            {
+                var validExts = new Array(".png", ".jpeg", ".jpg", ".gif");
+                var fileExt = value.toLowerCase();
+                fileExt = fileExt.substring(fileExt.lastIndexOf('.'));
+                if (validExts.indexOf(fileExt) < 0)  { return false; } else return true;
+            }
+            else return true;
+        });
+     
+        $.validator.addMethod("required", function(value, element) { if($.trim(value).length == 0) { return false; } else { return true; } });
+
+        $("#guestbook_create_form").validate( 
+        {
+            rules:
+            {
+                name: { required: true },
+                image: { valid_img_format:true } 
+            },
+            messages:
+            {
+                name: { required: "Please enter the Name" },
+                image: { valid_img_format: "Please upload only png, jpeg, jpg, gif extension image" },
+            }
+        });
+    })
+</script>
+{% endblock %}

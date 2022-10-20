@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Welcome To Guest Book Portal - Guest Book Listing{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" />
+{% endblock %}
+
+{% block body %}
+<div class="user_nav">
+    <p>Welcome {% if(session_user_type == 1) %} Admin {% elseif(session_user_type == 2) %} Guest {% endif %} | <a href="{{ path('logout') }}" >Logout</a></p>
+</div>
+
+<div class="common_bottom_block">    
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+
+    {% if(session_user_type == 2) %}
+    <div class="">        
+        <a href="{{ path('guestbook.create') }}" class="btn btn-secondary custom_btn mb-2 btn-sm float-end">Add New Record</a>
+    </div><div class="clearfix"></div>
+    {% endif %}
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover dataTables-example" style="width:100%">    
+            <thead>
+                <tr class="table_bg_grey">
+                    <th class="text-center no-sort" style="width:80px;">Sr. No</th>
+                    <th class="text-center">Name</th>
+                    <th class="text-center no-sort">Image</th>
+                    <th class="text-center" style="width:100px;">Status</th>
+                    
+                    {% if(session_user_type == 1) %}
+                        <th class="text-center no-sort" style="width:170px;">Action</th>
+                    {% endif %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% set srno = 1 %}
+                {% for res in guest_book %}
+                    <tr>
+                        <td class="text-center">{{ srno }}</td>
+                        <td>{{ res.name }}</td>
+                        <td class="text-center">
+                            {% if res.image|trim is not empty %}
+                            <a href="{{asset('uploads/guestbook_img/')}}{{res.image}}" target="_blank">
+                                <img src="{{asset('uploads/guestbook_img/')}}{{res.image}}" style="width:auto; height:40px;">
+                            </a>
+                            {% else %} - {% endif %}
+                        </td>
+                        <td class="text-center">
+                            {% if res.is_approved == 0 %}
+                                <span class="badge text-bg-danger">Pending</span>
+                            {% elseif res.is_approved == 1 %}
+                                <span class="badge text-bg-success">Approved</span>
+                            {% endif %}
+                        </td>  
+                        {% if(session_user_type == 1) %}                      
+                        <td style="text-align:right">
+                            {% if res.is_approved == 0 %}
+                                <a onclick="return confirm('are you confirm to approve the record?')" href="{{ path('guestbook.approve', {gb_id:res.gb_id}) }}" class="btn btn-success btn-sm">Approve</a>
+                            {% endif %}
+                            <a onclick="return confirm('are you confirm to delete the record?')" href="{{ path('guestbook.remove', {gb_id:res.gb_id}) }}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                         {% endif %}
+                    </tr>
+                {% set srno = srno + 1 %}
+                {% endfor %}
+            </tbody>
+        </table>                           
+    </div>
+</div>    
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>	
+<script language="javascript">
+    $(document).ready(function()
+    {
+        var table = $('.dataTables-example').DataTable(
+        {
+            searching: true,
+            "processing": true,
+            "serverSide": false,
+            "lengthMenu": [[10, 25, 50, 100, 500], [10, 25, 50, 100, 500]],
+            "language": 
+            {
+                "lengthMenu": "_MENU_",
+            },
+            pageLength: 10,
+            responsive: true,
+            rowReorder: false,
+            "stateSave": false,	
+            "aaSorting": [],
+            "columnDefs": 
+            [
+                {"targets": 'no-sort', "orderable": false, }        
+            ],				
+        });
+    }); 
+</script>
+{% endblock %} 
